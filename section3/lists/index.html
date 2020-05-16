@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>VueJS</title>
+    <script src="../../vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="(ingredient, index) in ingredients" :key="ingredient">
+            {{ ingredient }} ({{ index }})
+        </li>
+    </ul>
+    <!-- VueJS watches the values for us and updates the above list. -->
+    <input type="text" v-model="customIngredient">
+    <button @click="">Add Element</button>
+    <hr>
+    <template v-for="(ingredient, index) in ingredients">
+        <h1>{{ ingredient }}</h1>
+        <p>{{ index }}</p>
+    </template>
+    <hr>
+    <ul>
+        <li v-for="person in persons">
+            <div v-for="(value, key, index) in person">
+                {{ key }} : {{ value }} ({{ index }})
+            </div>
+        </li>
+    </ul>
+    <hr>
+    <ul>
+        <li v-for="n in 10">{{ n }}</li>
+    </ul>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            customIngredient: '',
+            ingredientsBak: ['meat', 'fruit', 'cookies' ],
+            persons: [
+                { name: 'Max', age: 27, color: 'red'},
+                { name: 'Anna', age: 'unknown', color: 'blue' }
+            ]
+        },
+        computed: {
+            ingredients: function() {
+                var result = ['meat', 'fruit', 'cookies'];
+                if(this.customIngredient == ''){
+
+                } else {
+                    result.push(this.customIngredient);
+                }
+                return result;
+            }
+        }
+    });
+</script>
+</body>
+</html>

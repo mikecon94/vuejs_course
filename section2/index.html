@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>VueJS</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1 v-once>{{ title }}</h1>
+    <p>{{ sayHello() }} - <a :href="link">Google</a></p>
+    <hr>
+    <p v-html="finishedLink"></p>
+    <button v-on:click="increase(2, $event)">Click Me!</button>
+    <p>{{ counter }}</p>
+    <p v-on:mousemove="updateCoordinates">Coordinates: {{ x }},{{ y }}
+        - <span v-on:mousemove.stop="">DEAD SPOT</span>
+    </p>
+    <input type="text" v-on:keyup.enter.space="alertMe">
+    <hr>
+    <!-- TWO WAY BINDING -->
+    <input type="text" v-model="name">
+    <p>{{ name }}</p>
+    <hr>
+    <button v-on:click="counter++">Increase</button>
+    <button v-on:click="counter--">Decrease</button>
+    <button @click="secondCounter++">Increment Second Counter</button>
+    <p>Counter: {{ counter }} | Second Counter: {{ secondCounter }}</p>
+    <p>Result: {{ result() }} | {{ output }}</p>
+    <hr>
+    <div class="demo"
+        @click="attachRed = !attachRed"
+        :class="divClasses"></div>
+    <div class="demo"
+    @click="attachRed = !attachRed"
+        :class="{red: attachRed}"></div>
+    <div class="demo" :class="[color, {red: attachRed}]"></div>
+    <hr>
+    <input type="text" v-model="color">
+    <hr>
+    <div class="demo" :style="{backgroundColor: color}"></div>
+    <div class="demo" :style="myStyle"></div>
+    <input type="text" v-model="color">
+    <input type="text" v-model="width">
+    <div class="demo" :style="[myStyle, { height: width + 'px'}]"></div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            title: "Hello World!",
+            link: 'http://google.com',
+            finishedLink: '<a href="http://google.com">Google</a>',
+            counter: 0,
+            secondCounter: 0,
+            x: 0,
+            y: 0,
+            name: 'Mike',
+            attachRed: false,
+            color: 'green',
+            width: 100
+        },
+        computed: {
+            output: function(){
+                console.log('Computed');
+                return this.counter > 5 ? 'Greater than 5': 'Smaller than 5';
+            },
+            divClasses: function(){
+                return {
+                    red: this.attachRed,
+                    blue: !this.attachRed
+                };
+            },
+            myStyle: function(){
+                return {
+                    backgroundColor: this.color,
+                    width: this.width + 'px'
+                };
+            }
+        },
+        watch: {
+            counter: function(value){
+                var vm = this;
+                setTimeout(function(){
+                    vm.counter = 0;
+                }, 2000)
+            }
+        },
+        methods: {
+            sayHello: function() {
+                this.title = 'Hello';
+                return this.title;
+            },
+            increase: function(increment, event){
+                this.counter = this.counter + increment;
+            },
+            updateCoordinates: function(event){
+                this.x = event.clientX;
+                this.y = event.clientY;
+            },
+            alertMe: function(){
+                alert('Alert!');
+            },
+            result: function() {
+                //Executed every time there's a change.
+                console.log('Method');
+                return this.counter > 5 ? 'Greater than 5': 'Smaller than 5';
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
