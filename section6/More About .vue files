@@ -1,3 +1,6 @@
+npm install
+npm run dev
+
 The ".vue" File
 
 You can learn more about ".vue" Files in this Article from the official Docs: http://vuejs.org/guide/single-file-components.html
